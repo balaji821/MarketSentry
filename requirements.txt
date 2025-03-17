@@ -1,0 +1,5 @@
+requests
+smtplib
+google-genai
+beautifulsoup4
+PyPDF2
