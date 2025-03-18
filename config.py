@@ -2,16 +2,37 @@
 
 # List of stocks to monitor
 SYMBOLS = [
-    'MUTHOOTFIN',
-    'TATAMOTORS'
-    # Add more stock scrips as needed
+    "ASHOKLEY",
+    "CIPLA",
+    "DRREDDY",
+    "FEDERALBNK",
+    "IDFCFIRSTB",
+    "INDUSINDBK",
+    "INFY",
+    "ITC",
+    "ITCHOTELS",
+    "JYOTHYLAB",
+    "KTKBANK",
+    "MANAPPURAM",
+    "MHRIL",
+    "MUTHOOTFIN",
+    "NATCOPHARM",
+    "SOUTHBANK",
+    "SUNPHARMA",
+    "TATACHEM",
+    "TATACONSUM",
+    "TATAMOTORS",
+    "TATASTEEL",
+    "TCS",
+    "TMB",
+    "ZYDUSLIFE"
 ]
 
 # API keys and other configurations
-GOOGLE_GENAI_API_KEY = '**redacted**'
-EMAIL_SENDER = 'your_email@example.com'
-EMAIL_RECIPIENT = 'recipient_email@example.com'
-EMAIL_SMTP_SERVER = 'smtp.example.com'
+GOOGLE_GENAI_API_KEY = ''
+EMAIL_SENDER = 'balaji2000001@gmail.com'
+EMAIL_RECIPIENT = 'balajis8201@gmail.com'
+EMAIL_SMTP_SERVER = 'smtp.gmail.com'
 EMAIL_SMTP_PORT = 587
-EMAIL_SMTP_USERNAME = 'your_smtp_username'
-EMAIL_SMTP_PASSWORD = 'your_smtp_password'
+EMAIL_SMTP_USERNAME = 'balaji2000001'
+EMAIL_SMTP_PASSWORD = ''
