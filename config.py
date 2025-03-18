@@ -1,9 +1,9 @@
 # Configuration file for MarketSentry
 
-# List of stock scrips to monitor
-SCRIPS = [
-    '533398',  # MUTHOOTFIN
-    '500570',  # TATAMOTORS
+# List of stocks to monitor
+SYMBOLS = [
+    'MUTHOOTFIN',
+    'TATAMOTORS'
     # Add more stock scrips as needed
 ]
 

@@ -1,5 +1,6 @@
 import requests
 import smtplib
+import re
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from config import *
@@ -13,8 +14,23 @@ headers = {
 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
 }
 
+def get_scrip_for_symbol(symbol):
+    url = f'https://api.bseindia.com/BseIndiaAPI/api/PeerSmartSearch/w?Type=SS&text={symbol}'
+    response = requests.request("GET", url, headers=headers, data=payload)
+    results = response.text.split("</li>")
+    pattern = "liclick\('([0-9]+)'"
+    for result in results:
+        if f"<strong>{symbol}</strong>" not in result:
+            continue
+        match = re.search(pattern, result)
+        return match.group(1)
+        
+
+
 # Function to fetch PDF documents from BSE's site
-def fetch_updates(scrip):
+def fetch_updates(symbol):
+    scrip = get_scrip_for_symbol(symbol)
+    print(f"Scrip for {symbol}: {scrip}")
     # today = datetime.now().strftime('%Y%m%d')
     today = '20250317'
     url = f'https://api.bseindia.com/BseIndiaAPI/api/AnnSubCategoryGetData/w?pageno=1&strCat=-1&strPrevDate={today}&strScrip={scrip}&strSearch=P&strToDate={today}&strType=C&subcategory=-1'
@@ -89,21 +105,21 @@ def send_email(summary):
 
 # Main function to orchestrate the process
 def main():
-    for scrip in SCRIPS:
-        updates = fetch_updates(scrip)
+    for symbol in SYMBOLS:
+        updates = fetch_updates(symbol)
         summary = summarize_updates(updates)
         send_email(summary)
 
 # Test function to verify the scraped data
 def test_fetch_pdfs():
-    for scrip in SCRIPS:
+    for symbol in SYMBOLS:
         updates = fetch_updates(scrip)
-        if updates:
-            # print(f'Updates for {scrip}:\n{updates}')
-            # print(f'Combined text for {scrip}:\n{get_combined_pdf_text(updates)}')
-            print(f'Summary for {scrip}:\n{summarize_updates(updates)}')
-        else:
-            print(f'No PDF URLs found for {scrip}')
+        # if updates:
+        #     # print(f'Updates for {scrip}:\n{updates}')
+        #     # print(f'Combined text for {scrip}:\n{get_combined_pdf_text(updates)}')
+        #     print(f'Summary for {scrip}:\n{summarize_updates(updates)}')
+        # else:
+        #     print(f'No PDF URLs found for {scrip}')
 
 if __name__ == '__main__':
     test_fetch_pdfs()
