@@ -124,11 +124,15 @@ def summarize_updates(updates):
 
 # Function to send email with the summary
 def send_email(summary):
+    summary = summary.replace('```html', '')
+    summary = summary.replace('```', '')
+    date = datetime.now().strftime('%Y-%m-%d')
+
     msg = MIMEMultipart()
     msg['From'] = EMAIL_SENDER
     msg['To'] = EMAIL_RECIPIENT
-    msg['Subject'] = 'Daily Market Summary'
-    msg.attach(MIMEText(summary, 'plain'))
+    msg['Subject'] = f'[{date}] Daily Market Summary'
+    msg.attach(MIMEText(summary, 'html'))
 
     server = smtplib.SMTP(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT)
     server.starttls()
