@@ -33,7 +33,7 @@ SYMBOLS = [
 # API keys and other configurations
 GOOGLE_GENAI_API_KEY = os.getenv('GOOGLE_GEMINI_API_KEY')
 EMAIL_SENDER = 'balaji2000001@gmail.com'
-EMAIL_RECIPIENT = 'balajis8201@gmail.com'
+EMAIL_RECIPIENTS = ['balajis8201@gmail.com','balaji.srinis@zohocorp.com']
 EMAIL_SMTP_SERVER = 'smtp.gmail.com'
 EMAIL_SMTP_PORT = 587
 EMAIL_SMTP_USERNAME = 'balaji2000001'

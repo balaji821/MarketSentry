@@ -140,7 +140,6 @@ def send_email(summary):
 
     msg = MIMEMultipart()
     msg['From'] = EMAIL_SENDER
-    msg['To'] = EMAIL_RECIPIENT
     msg['Subject'] = f'[{date}] Daily Market Summary'
     msg.attach(MIMEText(summary, 'html'))
 
@@ -148,7 +147,10 @@ def send_email(summary):
     server.starttls()
     server.login(EMAIL_SMTP_USERNAME, EMAIL_SMTP_PASSWORD)
     text = msg.as_string()
-    server.sendmail(EMAIL_SENDER, EMAIL_RECIPIENT, text)
+
+    for recipient in EMAIL_RECIPIENTS:
+        msg['To'] = recipient
+        server.sendmail(EMAIL_SENDER, EMAIL_RECIPIENT, text)
     server.quit()
 
 
