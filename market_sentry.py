@@ -12,10 +12,11 @@ from PyPDF2 import PdfReader
 from google import genai
 
 headers = {
-'Referer': 'https://www.bseindia.com/',
-'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
+    'Referer':
+    'https://www.bseindia.com/',
+    'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
 }
-
 
 today = datetime.now().strftime('%Y%m%d')
 # today = '20250317'
@@ -24,6 +25,7 @@ scrips = {}
 if os.path.exists('scrips.json'):
     with open('scrips.json', 'r') as f:
         scrips = json.load(f)
+
 
 def get_scrip_for_symbol(symbol):
     if symbol in scrips:
@@ -39,32 +41,36 @@ def get_scrip_for_symbol(symbol):
         match = re.search(pattern, result)
         scrip = match.group(1)
         scrips[symbol] = scrip
-        with open('scrips.json', 'w') as f:
-            json.dump(scrips, f)
         return scrip
+
 
 # Function to fetch PDF documents from BSE's site
 def fetch_updates(symbol):
     scrip = get_scrip_for_symbol(symbol)
     # print(f"Scrip for {symbol}: {scrip}")
-    # print(f"Collecting updates for {symbol}")
+    print(f"Collecting updates for {symbol}")
     url = f'https://api.bseindia.com/BseIndiaAPI/api/AnnSubCategoryGetData/w?pageno=1&strCat=-1&strPrevDate={today}&strScrip={scrip}&strSearch=P&strToDate={today}&strType=C&subcategory=-1'
     response = requests.request("GET", url, headers=headers)
     url_prefix = "https://www.bseindia.com/xml-data/corpfiling/AttachLive/"
     if response.status_code == 200:
         data = response.json()
-        updates = [{"headline":entry.get('HEADLINE'),"url":url_prefix + entry.get('ATTACHMENTNAME')} for entry in data.get('Table', []) if entry.get('NSURL') and entry.get('HEADLINE')]
+        updates = [{
+            "headline": entry.get('HEADLINE'),
+            "url": url_prefix + entry.get('ATTACHMENTNAME')
+        } for entry in data.get('Table', [])
+                   if entry.get('NSURL') and entry.get('HEADLINE')]
         return updates
     return []
 
+
 def get_pdf_text(url):
     fileName = url.split('/')[-1]
-    if os.path.exists(f'cache/{today}/{fileName}.txt'):
+    if os.path.exists(f'/tmp/cache/{today}/{fileName}.txt'):
         # print(f'Found cached text for {url}')
-        with open(f'cache/{today}/{fileName}.txt', 'r') as f:
+        with open(f'/tmp/cache/{today}/{fileName}.txt', 'r') as f:
             return f.read()
 
-    # print(f'Fetching PDF from {url}')
+    print(f'Fetching PDF from {url}')
     response = requests.request("GET", url, headers=headers)
     if response.status_code == 200:
         pdf_file = BytesIO(response.content)
@@ -72,20 +78,24 @@ def get_pdf_text(url):
         text = ""
         for page in reader.pages:
             text += page.extract_text()
-        os.makedirs(f'cache/{today}', exist_ok=True)
+        os.makedirs(f'/tmp/cache/{today}', exist_ok=True)
         text = text if text else "No text found in PDF"
-        with open(f'cache/{today}/{fileName}.txt', 'w') as f:
+        with open(f'/tmp/cache/{today}/{fileName}.txt', 'w') as f:
             f.write(text)
         return text
     else:
-        print(f'Failed to fetch PDF from {url} with status code {response.status_code}')
+        print(
+            f'Failed to fetch PDF from {url} with status code {response.status_code}'
+        )
         return None
+
 
 def get_combined_pdf_text(all_updates):
     combined_text = ""
     for symbol, updates in all_updates.items():
-        # print(f'Combining pdf text for {symbol}')
-        combined_text += f'ANNOUNCEMENTS FROM {symbol}'.center(100, '-') + '\n\n'
+        print(f'Combining pdf text for {symbol}')
+        combined_text += f'ANNOUNCEMENTS FROM {symbol}'.center(100,
+                                                               '-') + '\n\n'
         for update in updates:
             text = get_pdf_text(update['url'])
             if text:
@@ -117,10 +127,10 @@ def summarize_updates(updates):
             Format text using HTML tags if necessary.
              
               ${combined_text}'''
-        ]
-    )
+        ])
     # print(f'Summary response: {response}')
     return response.text
+
 
 # Function to send email with the summary
 def send_email(summary):
@@ -141,6 +151,7 @@ def send_email(summary):
     server.sendmail(EMAIL_SENDER, EMAIL_RECIPIENT, text)
     server.quit()
 
+
 # Main function to orchestrate the process
 def main():
     all_updates = {}
@@ -148,18 +159,21 @@ def main():
         updates = fetch_updates(symbol)
         if len(updates) > 0:
             all_updates[symbol] = updates
-    
+
     if len(all_updates) > 0:
         summary = summarize_updates(all_updates)
         print(f'Summary: {summary}')
+    else:
+        summary = "No updates found for today as of now."
     send_email(summary)
+
 
 # Test function to verify the scraped data
 def test_fetch_pdfs():
     all_updates = {}
     for symbol in SYMBOLS:
         updates = fetch_updates(symbol)
-        # print(f'Updates for {symbol}: {updates}')
+        print(f'Updates for {symbol}: {updates}')
         if len(updates) > 0:
             all_updates[symbol] = updates
     # print(f'All updates: {all_updates}')
@@ -172,6 +186,10 @@ def test_fetch_pdfs():
         # print("Summary written to summary.txt")
     else:
         print(f'No updates found for {SYMBOLS}')
+
+def event_handler(e, c):
+    print(e,c)
+    main()
 
 if __name__ == '__main__':
     main()
