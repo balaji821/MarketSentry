@@ -150,7 +150,7 @@ def send_email(summary):
 
     for recipient in EMAIL_RECIPIENTS:
         msg['To'] = recipient
-        server.sendmail(EMAIL_SENDER, EMAIL_RECIPIENT, text)
+        server.sendmail(EMAIL_SENDER, recipient, text)
     server.quit()
 
 
