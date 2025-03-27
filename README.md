@@ -46,15 +46,36 @@ Update the `config.py` file with your API keys, email configuration details, and
 ```python
 # config.py
 
-SCRIPS = [
-    '533398',  # MUTHOOTFIN
-    '500570',  # TATAMOTORS
-    # Add more stock scrips as needed
+SYMBOLS = [
+    'ASHOKLEY',  # ASHOK LEYLAND
+    'CIPLA',  # CIPLA
+    'DRREDDY',  # DR. REDDY'S LABORATORIES
+    'FEDERALBNK',  # FEDERAL BANK
+    'IDFCFIRSTB',  # IDFC FIRST BANK
+    'INDUSINDBK',  # INDUSIND BANK
+    'INFY',  # INFOSYS
+    'ITC',  # ITC LIMITED
+    'ITCHOTELS',  # ITC HOTELS
+    'JYOTHYLAB',  # JYOTHY LABS
+    'KTKBANK',  # KARNATAKA BANK
+    'MANAPPURAM',  # MANAPPURAM FINANCE
+    'MHRIL',  # MAHINDRA HOLIDAYS & RESORTS
+    'MUTHOOTFIN',  # MUTHOOT FINANCE
+    'NATCOPHARM',  # NATCO PHARMA
+    'SOUTHBANK',  # SOUTH INDIAN BANK
+    'SUNPHARMA',  # SUN PHARMACEUTICALS
+    'TATACHEM',  # TATA CHEMICALS
+    'TATACONSUM',  # TATA CONSUMER PRODUCTS
+    'TATAMOTORS',  # TATA MOTORS
+    'TATASTEEL',  # TATA STEEL
+    'TCS',  # TATA CONSULTANCY SERVICES
+    'TMB',  # TAMILNAD MERCANTILE BANK
+    'ZYDUSLIFE'  # ZYDUS LIFESCIENCES
 ]
 
 GOOGLE_GENAI_API_KEY = 'your_google_genai_api_key'
 EMAIL_SENDER = 'your_email@example.com'
-EMAIL_RECIPIENT = 'recipient_email@example.com'
+EMAIL_RECIPIENTS = ['recipient1@example.com', 'recipient2@example.com']
 EMAIL_SMTP_SERVER = 'smtp.example.com'
 EMAIL_SMTP_PORT = 587
 EMAIL_SMTP_USERNAME = 'your_smtp_username'
@@ -66,7 +87,7 @@ EMAIL_SMTP_PASSWORD = 'your_smtp_password'
 To run the script and receive daily market summaries, use the following command:
 
 ```bash
-$ python market_sentry.py
+$ python src/main.py
 ```
 
 ## Testing
@@ -74,7 +95,7 @@ $ python market_sentry.py
 To test the scraped data, you can use the test function provided in the `market_sentry.py` script:
 
 ```bash
-$ python market_sentry.py
+$ python src/main.py
 ```
 
 This will fetch the PDF URLs for the specified scrips and print them.
