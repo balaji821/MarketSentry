@@ -22,7 +22,7 @@ class STOCK_NEWS(BaseModel):
     personal_opinion: str
 
 class NEWS(BaseModel):
-    news_list: STOCK_NEWS
+    news_list: list[STOCK_NEWS]
     overall_observations: list[str]
 
 
@@ -32,8 +32,8 @@ def generate_summary(news: Dict[str, str]) -> Dict[str, str]:
     news_content = "\n\n".join(news.values())
     prompt = PROMPT_TEMPLATE.format(news_content=news_content)
 
-    with open('prompt.txt', 'w', encoding="utf-8") as f:
-        f.write(prompt)
+    # with open('prompt.txt', 'w', encoding="utf-8") as f:
+    #     f.write(prompt)
 
     config = {
         'response_mime_type': 'application/json',

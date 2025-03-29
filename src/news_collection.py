@@ -82,8 +82,8 @@ def fetch_pdf_content(all_news: dict) -> dict:
 
 def fetch_watchlist_updates(watchlist: dict[str, str]) -> Dict[str, str]:
     all_news_for_today = collect_all_news(watchlist)
-    with open('news.json', 'w') as f:
-        f.write(json.dumps(all_news_for_today))
+    # with open('news.json', 'w') as f:
+    #     f.write(json.dumps(all_news_for_today))
     news_details = {}
     for stock_symbol, news_list in all_news_for_today.items():
         for news in news_list:

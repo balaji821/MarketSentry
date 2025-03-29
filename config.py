@@ -1,6 +1,10 @@
-import os
-
 # Configuration file for MarketSentry
+
+import os
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 # API keys and other configurations
 GOOGLE_GENAI_API_KEY = "AIzaSyDjcafJ0J82XLF2jcki5Klott4haQzyRx8"

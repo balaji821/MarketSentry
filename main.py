@@ -1,7 +1,7 @@
 from src.news_collection import fetch_watchlist_updates, constructWatchlist
 from src.summary_generation import generate_summary
 from src.mailing_module import send_mail
-from src.config import logger
+from config import logger
 import json
 
 WATCHLIST : dict[str, str] = json.loads(open('watchlist.json', 'r').read())
@@ -30,4 +30,5 @@ def event_handler(event, context):
     return summary
 
 if __name__ == "__main__":
-    event_handler(None, None)
+    with open('summary.json', 'r', encoding="utf-8") as f:
+        send_mail(json.loads(f.read()))
