@@ -7,8 +7,8 @@ from typing import Dict
 from concurrent.futures import as_completed
 from requests_futures.sessions import FuturesSession
 
-# today = datetime.now().strftime('%Y%m%d')
-today = "20250327"
+today = datetime.now().strftime('%Y%m%d')
+# today = "20250327"
 BSE_API_URL = f'https://api.bseindia.com/BseIndiaAPI/api/AnnSubCategoryGetData/w?pageno=1&strCat=-1&strPrevDate={today}&strScrip=[scrip]&strSearch=P&strToDate={today}&strType=C&subcategory=-1'
 ATTACHMENT_URL_PREFIX = 'https://www.bseindia.com/xml-data/corpfiling/AttachLive/'
 HEADERS = {

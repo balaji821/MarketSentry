@@ -12,10 +12,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install zip tool
         uses: montudor/action-zip@v1
-      - name: Unzip packages.zip
-        run: unzip packages.zip -d .
-      - name: Delete packages.zip
-        run: rm packages.zip
+      - name: Install required packages
+        run: pip install --platform manylinux2014_x86_64 --target=. --implementation cp --python-version 3.13 --only-binary=:all: --upgrade -r requirements.txt
       - name: Create Zip file for Lambda function
         run: zip -r code.zip .
       - name: AWS CLI v2
