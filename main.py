@@ -1,7 +1,7 @@
-from news_collection import fetch_watchlist_updates, constructWatchlist
-from summary_generation import generate_summary
-from mailing_module import send_mail
-from config import logger
+from src.news_collection import fetch_watchlist_updates, constructWatchlist
+from src.summary_generation import generate_summary
+from src.mailing_module import send_mail
+from src.config import logger
 import json
 
 WATCHLIST : dict[str, str] = json.loads(open('watchlist.json', 'r').read())
